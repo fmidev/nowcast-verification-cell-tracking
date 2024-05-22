@@ -1,0 +1,26 @@
+name: jupyter
+channels:
+  - conda-forge
+dependencies:
+  - jupyterlab
+  - pandas[version='>=2.0.0']
+  - imageio
+  - gifsicle
+  - ca-certificates
+  - certifi
+  - openssl
+  - addict
+  - matplotlib
+  - pyproj
+  - geopandas
+  - rasterio
+  - xarray
+  - seaborn=0.13
+  - palettable
+  - cmcrameri=1.7
+  - netcdf4
+  - pysteps
+  - dask
+  - h5py
+  - xskillscore
+  - flox

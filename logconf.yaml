@@ -1,0 +1,28 @@
+version: 1
+
+formatters:
+  simple:
+    format: "%(asctime)s - %(lineno)d: %(message)s"
+
+  complex:
+    format: "%(asctime)s - %(name)s - %(funcName)s - %(lineno)d: %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+
+  run_pysteps_swap_predictions:
+    class: logging.handlers.RotatingFileHandler
+    maxBytes: 50000000
+    backupCount: 10
+    level: INFO
+    formatter: complex
+    filename: logs/run_pysteps_swap_predictions.log
+
+loggers:
+  run_pysteps_swap_predictions:
+    level: INFO
+    handlers: [run_pysteps_swap_predictions]
+    propagate: yes

@@ -1,0 +1,140 @@
+# Configurations for plotting example nowcasts
+# outdir: nowcast_gifs/{year}/{month}/{day}
+outdir: figures/nowcast_casefig_article
+
+# gif options
+# whether to make gif. If false, only individual frames are saved
+make_gif: true
+duration_per_frame: 0.5
+
+# Figure size either as one size or row height and column width in matplotlib units (usually inches)
+figsize: null
+row_height: 4
+col_width: 4
+# filename template
+filename: "case_nowcast_%Y%m%d%H%M.pdf"
+# Style file to use
+stylefile: config/stylefiles/article.mplstyle
+# stylefile: stylefiles/presentation.mplstyle
+# DPI of the output images
+dpi: 200
+# which leadtime indices to plot
+leadtimes:
+  - 1
+  - 2
+  - 3
+  - 6
+  - 12
+# how many input images to plot
+n_input_images: 5
+# frequency of data, in pandas format
+freq: 5T
+# pixel size of input images
+im_size: [640, 710]
+tick_spacing: 100 # [km]
+extent: null
+
+# advection_field_path: "/scratch/jritvane/advection_fields/%Y/%m/%d/motion_%Y%m%d%H%M.nc"
+advection_field_path: null
+adv_field_bbox: [0, 640, 0, 710]
+plot_diff_from_obs: false
+
+plot_map: true
+map_params:
+  # Map shape file that is plotted
+  border_shapefile: notebooks/Border_CH.shp
+  radar_shapefile: notebooks/swiss_radars.shp
+  # Projection of data
+  proj: "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs"
+
+rz_transform_params:
+  # Parameters for conversion to dbz
+  zr_a: 316
+  zr_b: 1.5
+  # values below thresh are set to zerovalue
+  thresh: 0.1
+  zerovalue: -32
+
+plot_objects: true
+object_params:
+  # Parameters for conversion to dbz
+  zr_a: 316
+  zr_b: 1.5
+  # values below thresh are set to zerovalue
+  thresh: 0.15
+  zerovalue: -32
+
+  # Whether to consider objects with splits and merges as part of the track
+  # At all timesteps
+  remove_from_track_splits_merges: false
+  # After t0
+  remove_from_track_splits_merges_after_t0: false
+
+  # tdating options used to track the cells
+  tdating_kwargs:
+    mintrack: 2
+    minref: 35 # dBZ
+    maxref: 45 # dBZ
+    mindiff: 8 # dBZ
+    minsize: 25 # pixels
+    minmax: 35 # dBZ
+    mindis: 20 # pixels
+
+# Zoom in on a specific area, given as fraction of the image size starting from the top left corner
+# as [x0, x1, y0, y1]
+# zoom_bbox: [0.3, 0.5, 0.55, 0.75]
+zoom_bbox: null
+# Nowcast bbox of input image as [y0, y1, x0, x1]
+nowcast_bbox: [0, 640, 6, 710]
+# Whether to plot the nowcast bbox as red frame
+plot_nowcat_bbox: false
+nowcasts:
+  # Options as
+  #  <model_name>:
+  #    path: <path_to_nowcast>
+  #    title: <title>
+  #    cmap_qty: <cmap>
+  # for colormap definitions, see utils/plot_utils.py/_get_colormap
+  extrapolation:
+    path: /scratch/jritvane/nowcasts/pysteps/extrapolation_swiss_composite_bbox_26012024.h5
+    title: "Advection"
+    cmap_qty: "R_log_high"
+  lcnn-diff-rmse-31012024:
+    # L-CNN trained with Swiss data
+    path: /scratch/jritvane/nowcasts/lcnn/lcnn_diff_rmse_swiss_31012024.h5
+    title: "L-CNN"
+    cmap_qty: "R_log_high"
+  sprog:
+    path: /scratch/jritvane/nowcasts/pysteps/sprog_swiss_composite_bbox_26012024.h5
+    title: "S-PROG"
+    cmap_qty: "R_log_high"
+  linda:
+    path: /scratch/jritvane/nowcasts/pysteps/linda_domain_swiss_composite_bbox_26012024.h5
+    title: "LINDA"
+    cmap_qty: "R_log_high"
+
+input_data_order: ["RATE"]
+target_data_order: ["RATE"]
+input_data:
+  RATE:
+    # regex to find the file
+    file: "RZC%y%j%H%MVL.*"
+    # Path to the data
+    path: "/scratch/jritvane/msrad_data/rainrate/%Y/%m/%d"
+    # Name of the variable in the file (e.g. in ODIM HDF5 files what/quantity)
+    variable: "RATE"
+    # Title in plots
+    title: "R [mm h$^{-1}$]"
+    # Data coordinate system, needs to be euler
+    coord_system: "euler"
+    # Colormap used in the plots, see utils/plot_utils.py/_get_colormap for different definitions
+    cmap_qty: "R_log_high"
+    # If we want to match the exact timestamp of the data. Options are:
+    # - "exact": file timestamps must match `obstimes` exactly.
+    # - "closest": the files with timestamps closest to `obstimes` are read
+    #     (NOTE: can result in duplicate files).
+    # - "n_next_files": `num_obs` files with timestamps after `curdate` are read.
+    # - "n_prev_files": `num_obs` files with timestamps before `curdate` are read.
+    file_timestamp: "exact"
+    # Reader function to use, other option `h5_to_dataset`
+    reader_func: metranet_to_dataset

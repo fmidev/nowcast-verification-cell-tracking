@@ -1,0 +1,44 @@
+data_source_name: metranet_tsa
+
+# platform specific paths
+datelist_path: "datelists/swiss_rainy_days_150_52021_92023.txt"
+hdf5_path: "/scratch/jritvane/nowcasts/observations/swiss_composite_bbox_26012024.h5"
+
+n_leadtimes:
+
+input:
+  num_next_files: 0
+
+save:
+  save_indexes: [0]
+  group_format: "{timestamp}/{method}"
+  what_attrs:
+    use_metranet_lut: true
+    projdef: "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs"
+    qty: "RATE"
+    lookup: "METRANET_RR_8BIT"
+    unit: "mm/h"
+    description: "Rain rate in mm/h stored in 8-bit METRANET format"
+    institution: "MeteoSwiss"
+    UR_lon: 12.463400010413896
+    UR_lat: 49.36540000898943
+    LL_lon: 3.2432298672374404
+    LL_lat: 43.63301754190871
+    xsize: 704
+    ysize: 640
+    timestep: 5
+
+preprocessing:
+  # bbox: [0, 710, 0, 640]
+  bbox_type: "pixels" # or data, to clip with geographical coordinates
+  bbox: [6, 710, 0, 640]
+  nan_to_zero: False
+  downsampling: False
+  threshold: null
+  # Don't transform to reflectivity
+  store_as_reflectivity: false
+
+nowcast:
+  nowcast_method: "measurements"
+
+postprocessing: {}

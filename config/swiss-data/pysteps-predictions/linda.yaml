@@ -1,0 +1,136 @@
+#
+#   OPTICAL FLOW CALCULATED BEFORE BBOX HERE
+#
+data_source_name: metranet_tsa
+
+# platform specific paths
+datelist_path: "datelists/swiss_rainy_days_150_52021_92023_test.txt"
+hdf5_path: "/scratch/jritvane/nowcasts/pysteps/linda_domain_swiss_composite_bbox_26012024.h5"
+
+input:
+  # how many radar images to load after the first one?
+  num_next_files: 3
+
+save:
+  # which prediction indices to save?
+  save_indexes: [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      # 24,
+      # 25,
+      # 26,
+      # 27,
+      # 28,
+      # 29,
+      # 30,
+      # 31,
+      # 32,
+      # 33,
+      # 34,
+      # 35,
+    ]
+  group_format: "{timestamp}/{method}"
+  what_attrs:
+    # Use metranet lookup table to save data
+    use_metranet_lut: true
+    projdef: "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs"
+    qty: "RATE"
+    lookup: "METRANET_RR_8BIT"
+    unit: "mm/h"
+    description: "LINDA nowcast rain rate in mm/h stored in 8-bit METRANET format"
+    institution: "MeteoSwiss"
+    UR_lon: 12.463400010413896
+    UR_lat: 49.36540000898943
+    LL_lon: 3.2432298672374404
+    LL_lat: 43.63301754190871
+    xsize: 704
+    ysize: 640
+    timestep: 5
+
+preprocessing:
+  # do we convert dBZ -> mm/h
+  convert: False
+  # do we transform mm/h RR into dB units? (only applicable if convert : true)
+  db_transform: false
+  # threshold for radar sequences (mm/h or dBZ depending on if convert is true)
+  # values below will be set to metadata zerovalue or that set below in case of dB transform
+  threshold: 0.15
+  # zerovalue to be set in potential dB transform
+  zerovalue: 0.0
+  # convert NaN values of the input data to zeros indicated by metadata
+  nan_to_zero: True
+  # factor by which to downscale input data
+  downscaling: 1.0
+
+nowcast:
+  # Do conversion after optical flow calculation
+  # do we convert dBZ -> mm/h
+  convert: false
+  # do we transform mm/h RR into dB units?
+  db_transform: false
+  # threshold for radar sequences (mm/h or dBZ depending on if convert is true)
+  # values below will be set to metadata zerovalue or that set below in case of dB transform
+  threshold: 0.15
+  # zerovalue to be set in potential dB transform
+  zerovalue: 0
+  # convert NaN values of the input data to zeros indicated by metadata
+  nan_to_zero: false
+  # factor by which to downscale input data
+
+  # bounding box for data, in pixels
+  bbox_type: "pixels" # or data, to clip with geographical coordinates
+  bbox: [6, 710, 0, 640]
+
+  nowcast_method: "linda"
+  oflow_method: "lucaskanade"
+  sample_slice: [-3, null, null]
+  oflow_slice: [0, null, 1]
+  n_leadtimes: 24
+
+  oflow_params: {}
+  nowcast_params:
+    feature_method: domain
+    add_perturbations: false
+    num_workers: 20
+    use_multiprocessing: true
+    extrap_kwargs:
+      interp_order: 3
+      allow_nonfinite_values: True
+
+postprocessing:
+  # do we backtransform from dB units
+  db_transform: false
+  # threshold (dBR, R, or dBZ) under which zerovalue is
+  # assigned from zerovalue below
+  threshold: 0.15
+  # zerovalue to be set (R or dBZ)
+  zerovalue: 0.0
+  # before saving, set all NaNs to above zerovalue too
+  nan_to_zero: False
+  # convert back from mm/h to dBZ (set to true in case it is true in preprocessing too)
+  convert: true
+  zr_a: 316.0
+  zr_b: 1.5
+  store_as_reflectivity: false

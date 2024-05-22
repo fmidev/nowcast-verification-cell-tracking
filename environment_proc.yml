@@ -1,0 +1,41 @@
+name: proc
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pyrad_mch
+  - matplotlib=3.6.3
+  - h5py
+  - pandas=1.5.3
+  - cartopy
+  - gdal
+  - wradlib
+  - xmltodict
+  - shapely
+  - dask
+  - imageio
+  - scikit-learn
+  - ca-certificates
+  - openssl
+  - ipdb
+  - certifi
+  - rioxarray
+  - xarray
+  - rasterio
+  - cmcrameri=1.7
+  - seaborn
+  - arrow
+  - addict=2.3.0
+  - metpy
+  - zarr
+  - libnetcdf[version='<4.9.1']
+  - pip
+  - geopandas
+  - scikit-image
+  - pyfftw
+  - graphviz
+  - palettable
+  - tqdm
+  - pip:
+      - "git+https://github.com/ritvje/pysteps.git@feature-tdating-split-merge"
+      - "git+https://github.com/ritvje/pysteps-importer-metranet.git"

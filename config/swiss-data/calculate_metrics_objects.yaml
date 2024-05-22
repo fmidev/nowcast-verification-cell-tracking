@@ -1,0 +1,93 @@
+### GENERAL CONFIG ###
+
+# unique identifier for metrics calculation experiment
+exp_id: "objects-2021-2023-20240308-less-splits"
+logging_level: DEBUG
+# debugging flag, so that we don't try and go trough all the samples
+# set to False or integer (num of samples to pick)
+debugging: false
+# If set to false, existing contingency tables will simply be used to compute metric values
+accumulate: true
+# number of chunks to divide the timestamps in for parallelization
+# for NO parallelization set to 0
+# otherwise set to a positive integer smalller than the number of test samples
+# recommended is to set equal or bigger to the number of available processing units
+n_chunks: 100
+n_workers: 20
+
+### PATH RELATED CONFIG ###
+path:
+  root: "/scratch/jritvane/results/{id}"
+  # template path to the files recording the final values of metrics that have been calculated
+  metrics: "/scratch/jritvane/results/{id}/{metric}_{method}.nc"
+  # template path for the dump file storing metric states
+  states: "/scratch/jritvane/results/{id}/metric_states/state_{method}_{metric}.dump"
+  # the path to the text file containing a list of timestamps to calculate metrics on
+  timestamps: "/scratch/jritvane/src/utilities/swiss_rainy_days_150_52021_92023_test.txt"
+  # the path to the CSV file recording which metrics have been calculated
+  done: "/scratch/jritvane/results/{id}/done_{id}.csv"
+  # where to save copy of the input config
+  config_copy: "/scratch/jritvane/results/{id}/{id}_config.yaml"
+  # the path to the file containing logging output for the experiment
+  logging: "/scratch/jritvane/results/{id}/{id}.log"
+
+### PREDICTION RELATED CONFIG ###
+
+# which prediction method name to calculate the metrics on
+# and path to the predictions
+methods:
+  # L-CNN trained with Swiss data
+  lcnn-diff-rmse-31012024:
+    path: /scratch/jritvane/nowcasts/lcnn/lcnn_diff_rmse_swiss_31012024.h5
+  # Extrapolation nowcast
+  extrapolation:
+    path: /scratch/jritvane/nowcasts/pysteps/extrapolation_swiss_composite_bbox_26012024.h5
+  # LINDA nowcast
+  linda:
+    path: /scratch/jritvane/nowcasts/pysteps/linda_domain_swiss_composite_bbox_26012024.h5
+  # S-PROG nowcast
+  sprog:
+    path: /scratch/jritvane/nowcasts/pysteps/sprog_swiss_composite_bbox_26012024.h5
+# measurement path
+measurements:
+  name: measurements
+  path: /scratch/jritvane/nowcasts/observations/swiss_composite_bbox_26012024.h5
+
+
+additional_measurements:
+
+# data related pre-processing configuration
+preprocessing:
+  #convert dBZ to mm/h ?
+  convert_mmh: false
+  #threshold for observable precipitation (after possible conversion)
+  threshold: 0.15
+  #value to apply to pixels below observable precipitation
+  zerovalue: 0.0
+
+# leadtimes to calculate the metrics for as units of 5 minutes
+n_leadtimes: 12
+prev_obs_times: 5
+# if set to True, will mask all predictions the same, using "logical and" operation
+common_mask: True
+
+### METRICS RELATED CONFIG ###
+
+# Possible choices are defined in verif.metric_tools.get_metric_class
+# an entry for each metric to be calculated
+metrics:
+  OBJECTS:
+    init_kwargs:
+      leadtimes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      prev_obs_times: 5
+      zr_a: 316.0
+      zr_b: 1.5
+      dist_limit_matching: 20
+      tdating_kwargs:
+        mintrack: 2
+        minref: 35 # dBZ
+        maxref: 45 # dBZ
+        mindiff: 8 # dBZ
+        minsize: 25 # pixels
+        minmax: 35 # dBZ
+        mindis: 20 # pixels

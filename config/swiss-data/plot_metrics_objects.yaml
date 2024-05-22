@@ -1,0 +1,107 @@
+stylefile: "./config/stylefiles/presentation.mplstyle"
+
+exp_id: "objects-2021-2023-20240308-less-splits"
+
+path:
+  result_dir: "/scratch/jritvane/results/{id}"
+  save_dir: "/scratch/jritvane/results/{id}"
+
+output_formats: ["pdf", "svg"]
+
+legend_order: [
+    "extrapolation",
+    "lcnn-diff-rmse-31012024",
+    "sprog",
+    "linda",
+  ]
+unit: mmh
+methods:
+  lcnn-diff-rmse-31012024:
+    # L-CNN trained with Swiss data
+    color: "#7570b3"
+    label: "L-CNN"
+    linestyle: "solid"
+  linda:
+    label: "LINDA"
+    # color: "#73AF48"
+    color: "#e7298a"
+    linestyle: "dashed"
+  extrapolation:
+    label: "Advection"
+    # color: "#0F8554"
+    color: "#1b9e77"
+    linestyle: "dotted"
+  sprog:
+    label: "S-PROG"
+    # color: "#38A6A5"
+    color: "#d95f02"
+    linestyle: "dashdot"
+
+figures:
+  row_height: 5
+  col_width: 5
+
+metrics: ["CAT", "CONT", "FSS", "RAPSD"]
+categorical_metrics: ["POD", "FAR", "CSI", "ETS"]
+continuous_metrics: ["MAE", "ME"]
+thresholds: [0.1, 0.5, 1.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 50.0]
+leadtime_limits: [5, 60]
+leadtime_locator_multiples: [15, 5]
+scales: [1, 2, 4, 8, 16, 32]
+
+metric_conf:
+  BIAS:
+    full_name: "Frequency Bias"
+    label: "BIAS"
+    limits: [0, 1.2]
+    ticks: [0, 1.21, 0.1]
+    # limits: [0.75, 6.0]
+    # ticks: [0.5, 0.1]
+    # ticks: [0.5, 3.01, 0.25]
+  POD:
+    full_name: "Probability of Detection"
+    label: "POD"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  ETS:
+    full_name: "Equitable Threat Score"
+    label: "ETS"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  FAR:
+    full_name: "False Alarm Ratio"
+    label: "FAR"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  CSI:
+    full_name: "Critical Success Index"
+    label: "CSI"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  MAE:
+    full_name: "Mean Absolute Error"
+    label: "MAE [mm h$^{-1}$]"
+    limits: null
+    ticks: [0.1, 0.02]
+    cmap: "cmc.lipari_r"
+    cmap_intervals: [0, 1.0, 21]
+    cmap_locator_multiple: 0.1
+    cmap_type: "sequential"
+    cbar_kwargs:
+      extend: "max"
+  ME:
+    full_name: "Mean Error"
+    label: "ME [mm h$^{-1}$]"
+    limits: null
+    ticks: [0.1, 0.02]
+    cmap: "cmc.vik"
+    cmap_intervals: [-1.0, 1.0, 20]
+    cmap_locator_multiple: 0.2
+    cmap_type: "diverging"
+    cbar_kwargs:
+      extend: "both"
+  FSS:
+    full_name: "Fractions Skill Score"
+    label: "FSS"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
