@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: Cell tracking -based verification framework for nowcasts
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Jenna
+    family-names: Ritvanen
+    email: jenna.ritvanen@fmi.fi
+    affiliation: Finnish Meteorological Institute
+    orcid: 'https://orcid.org/0000-0002-0662-0839'
+repository-code: >-
+  https://github.com/fmidev/nowcast-verification-cell-tracking
+abstract: >-
+  Code for the manuscript
+
+
+  Ritvanen, J., Pulkkinen, S., Moisseev, D., Nerini, D.
+  (2024): Cell tracking -based framework for assessing
+  nowcasting model skill in reproducing growth and decay of
+  convective rainfall
+
+
+  submitted to the Geoscientific Model Development journal.
+keywords:
+  - rainfall nowcasting
+  - cell tracking
+  - nowcast verification
+license: MIT
