@@ -48,7 +48,7 @@ BBOX_LW = 1.5
 BBOX_COL = "tab:red"
 RADAR_COL = "tab:orange"
 RADAR_EDGECOL = "none"
-RADAR_SIZE = 10
+RADAR_SIZE = 50
 RADAR_MARKER = "X"
 
 OBJECT_LW = 0.8
@@ -321,6 +321,7 @@ if __name__ == "__main__":
         figsize=figsize,
         sharex=True,
         sharey=True,
+        gridspec_kw={"wspace": 0.0, "hspace": 0.0},
     )
 
     # Load observations

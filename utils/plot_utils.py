@@ -196,7 +196,7 @@ def plot_array(
             cbar.ax.set_yscale("linear")
         if ticks is not None:
             cbar.set_ticks(ticks)
-        cbar.ax.tick_params(labelsize="small")
+        # cbar.ax.tick_params(labelsize="small")
         cbar.set_label(label=COLORBAR_TITLES[qty], weight="normal")
         # cbar.solids.set_rasterized(True)
 
