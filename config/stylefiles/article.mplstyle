@@ -355,12 +355,12 @@ font.family: sans-serif
 #axes.grid.axis     : both    ## which axis the grid should apply to
 #axes.grid.which    : major   ## gridlines at {major, minor, both} ticks
 axes.titlelocation: center  ## alignment of the title: {left, right, center}
-axes.titlesize: medium   ## fontsize of the axes title
+axes.titlesize: large   ## fontsize of the axes title
 axes.titleweight: normal  ## font weight of title
 axes.titlecolor: black    ## color of the axes title, auto falls back to text.color
                               ## as default value
 #axes.titlepad      : 6.0     ## pad between axes and title in points
-axes.labelsize: medium  ## fontsize of the x any y labels
+axes.labelsize: large  ## fontsize of the x any y labels
 #axes.labelpad      : 4.0     ## space between label and axis
 axes.labelweight: normal  ## weight of the x and y labels
 axes.labelcolor: black
@@ -405,7 +405,7 @@ axes.spines.right: True
 				   #  e.g. '1f77b4', instead of 1f77b4.
                    ## See also https://matplotlib.org/tutorials/intermediate/color_cycle.html
                    ## for more details on prop_cycle usage.
-#axes.autolimit_mode : data  ## How to scale axes limits to the data.  By using:
+axes.autolimit_mode : "round_numbers"  ## How to scale axes limits to the data.  By using:
                              ##     - "data" to use data limits, plus some margin
                              ##     - "round_numbers" move to the nearest "round" number
 #axes.xmargin   : .05   ## x margin.  See `axes.Axes.margins`

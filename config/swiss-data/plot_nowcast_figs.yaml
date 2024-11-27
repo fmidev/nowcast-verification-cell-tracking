@@ -1,6 +1,6 @@
 # Configurations for plotting example nowcasts
 # outdir: nowcast_gifs/{year}/{month}/{day}
-outdir: figures/nowcast_casefig_article
+outdir: figures/review_figures
 
 # gif options
 # whether to make gif. If false, only individual frames are saved
@@ -10,7 +10,7 @@ duration_per_frame: 0.5
 # Figure size either as one size or row height and column width in matplotlib units (usually inches)
 figsize: null
 row_height: 4
-col_width: 4
+col_width: 3.6
 # filename template
 filename: "case_nowcast_%Y%m%d%H%M.pdf"
 # Style file to use
@@ -23,8 +23,10 @@ leadtimes:
   - 1
   - 2
   - 3
-  - 6
-  - 12
+  - 4
+  - 5
+  # - 6
+  # - 12
 # how many input images to plot
 n_input_images: 5
 # frequency of data, in pandas format
@@ -83,7 +85,7 @@ object_params:
 # Zoom in on a specific area, given as fraction of the image size starting from the top left corner
 # as [x0, x1, y0, y1]
 # zoom_bbox: [0.3, 0.5, 0.55, 0.75]
-zoom_bbox: null
+zoom_bbox: [0.28, 0.84, 0.31, 0.94]
 # Nowcast bbox of input image as [y0, y1, x0, x1]
 nowcast_bbox: [0, 640, 6, 710]
 # Whether to plot the nowcast bbox as red frame
@@ -96,21 +98,21 @@ nowcasts:
   #    cmap_qty: <cmap>
   # for colormap definitions, see utils/plot_utils.py/_get_colormap
   extrapolation:
-    path: /scratch/jritvane/nowcasts/pysteps/extrapolation_swiss_composite_bbox_26012024.h5
+    path: /data/jenna/cell-tracking-article/nowcasts/pysteps/extrapolation_swiss_composite_bbox_26012024.h5
     title: "Advection"
     cmap_qty: "R_log_high"
   lcnn-diff-rmse-31012024:
     # L-CNN trained with Swiss data
-    path: /scratch/jritvane/nowcasts/lcnn/lcnn_diff_rmse_swiss_31012024.h5
+    path: /data/jenna/cell-tracking-article/nowcasts/lcnn/lcnn_diff_rmse_swiss_31012024.h5
     title: "L-CNN"
     cmap_qty: "R_log_high"
-  sprog:
-    path: /scratch/jritvane/nowcasts/pysteps/sprog_swiss_composite_bbox_26012024.h5
-    title: "S-PROG"
-    cmap_qty: "R_log_high"
   linda:
-    path: /scratch/jritvane/nowcasts/pysteps/linda_domain_swiss_composite_bbox_26012024.h5
+    path: /data/jenna/cell-tracking-article/nowcasts/pysteps/linda_domain_swiss_composite_bbox_26012024.h5
     title: "LINDA"
+    cmap_qty: "R_log_high"
+  sprog:
+    path: /data/jenna/cell-tracking-article/nowcasts/pysteps/sprog_swiss_composite_bbox_26012024.h5
+    title: "S-PROG"
     cmap_qty: "R_log_high"
 
 input_data_order: ["RATE"]
@@ -120,7 +122,7 @@ input_data:
     # regex to find the file
     file: "RZC%y%j%H%MVL.*"
     # Path to the data
-    path: "/scratch/jritvane/msrad_data/rainrate/%Y/%m/%d"
+    path: "/data/jenna/cell-tracking-article/data/rainrate/%Y/%m/%d"
     # Name of the variable in the file (e.g. in ODIM HDF5 files what/quantity)
     variable: "RATE"
     # Title in plots

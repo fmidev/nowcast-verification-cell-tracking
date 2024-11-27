@@ -1,6 +1,7 @@
 """
 Utility functions for working with metrics
 """
+
 from verif import metrics
 from functools import reduce
 import pandas as pd
@@ -12,6 +13,10 @@ def get_metric_class(metric_name: str):
     metric_name = metric_name.upper()
     if metric_name == "OBJECTS":
         return metrics.ObjectMetrics
+    elif metric_name == "CONT":
+        return metrics.ContinuousMetric
+    elif metric_name == "CAT":
+        return metrics.CategoricalMetric
     else:
         raise NotImplementedError(f"Metric {metric_name.upper()} not implemented.")
 
@@ -49,22 +54,12 @@ def merge_metrics(metric_instance_1, metric_instance_2):
     ):
         return np.nan
 
-    if (not hasattr(metric_instance_1, "merge")) or (
-        not hasattr(metric_instance_2, "merge")
-    ):
-        raise AttributeError(
-            f"Either {metric_instance_1} or {metric_instance_2} does not have a 'merge' attribute."
-        )
-    if (not hasattr(metric_instance_1, "is_empty")) or (
-        not hasattr(metric_instance_2, "is_empty")
-    ):
-        raise AttributeError(
-            f"Either {metric_instance_1} or {metric_instance_2} does not have a 'is_empty' attribute."
-        )
+    if (not hasattr(metric_instance_1, "merge")) or (not hasattr(metric_instance_2, "merge")):
+        raise AttributeError(f"Either {metric_instance_1} or {metric_instance_2} does not have a 'merge' attribute.")
+    if (not hasattr(metric_instance_1, "is_empty")) or (not hasattr(metric_instance_2, "is_empty")):
+        raise AttributeError(f"Either {metric_instance_1} or {metric_instance_2} does not have a 'is_empty' attribute.")
     if not type(metric_instance_1) is type(metric_instance_2):
-        raise TypeError(
-            f"{metric_instance_1} and {metric_instance_2} are not of the same type."
-        )
+        raise TypeError(f"{metric_instance_1} and {metric_instance_2} are not of the same type.")
 
     if metric_instance_1.is_empty and metric_instance_2.is_empty:
         return metric_instance_1
