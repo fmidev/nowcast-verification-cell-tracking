@@ -1,0 +1,121 @@
+stylefile: /home/users/ritvanen/koodaus/cell-tracking-article-code/config/stylefiles/article.mplstyle
+
+exp_id: "review-pixels-20241018"
+path:
+  result_dir: "/data/jenna/cell-tracking-article/results/{id}"
+  save_dir: "/data/jenna/cell-tracking-article/results/{id}/article_figs"
+
+output_formats: ["pdf", "svg", "png"]
+
+legend_order: null
+unit: mmh
+methods:
+  extrapolation:
+    label: "Advection"
+    # color: "#38A6A5"
+    color: "#1b9e77"
+    linestyle: "dotted"
+  lcnn-diff-rmse-31012024:
+    # L-CNN trained with Swiss data
+    # color: "#332288"
+    color: "#7570b3"
+    label: "L-CNN"
+    linestyle: "solid"
+  linda:
+    label: "LINDA"
+    # color: "#73AF48"
+    color: "#e7298a"
+    linestyle: "dashed"
+  sprog:
+    label: "S-PROG"
+    color: "#d95f02"
+    # color: "#0F8554"
+    linestyle: "dashdot"
+
+figures:
+  row_height: 5
+  col_width: 5
+
+metrics: ["CAT", "CONT"]
+categorical_metrics: ["CSI", "ETS", "POD", "FAR"]
+plot_count: false
+write_panel_labels: true
+ncols_for_single_metric: 2
+continuous_metrics: ["MAE", "ME", "RMSE", "MSE"]
+thresholds: [-inf, 0.1, 0.5, 1.0, 4.6, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 50.0]
+leadtime_limits: [5, 60]
+leadtime_locator_multiples: [15, 5]
+scales: [2, 4, 8, 16, 32]
+
+metric_conf:
+  COUNT:
+    full_name: "Number of pixels over threshold"
+    label: "Count"
+    limits: [4, 9]
+    ticks: null
+    log_scale: true
+  POD:
+    full_name: "Probability of Detection"
+    label: "POD"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  ETS:
+    full_name: "Equitable Threat Score"
+    label: "ETS"
+    limits: [0, 1.0]
+    ticks: [0, 1.01, 0.1]
+  FAR:
+    full_name: "False Alarm Ratio"
+    label: "FAR"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  CSI:
+    full_name: "Critical Success Index"
+    label: "CSI"
+    limits: [0, 1]
+    ticks: [0, 1.01, 0.1]
+  MAE:
+    full_name: "Mean Absolute Error"
+    label: "MAE [mm h$^{-1}$]"
+    # limits: [0.1, 0.52]
+    # ticks: [0.1, 0.02]
+    # ticks: []
+    cmap: "cmc.lipari_r"
+    cmap_intervals: [0, 1.0, 21]
+    cmap_locator_multiple: 0.1
+    cmap_type: "sequential"
+    cbar_kwargs:
+      extend: "max"
+  ME:
+    full_name: "Mean Error"
+    label: "ME [mm h$^{-1}$]"
+    # limits: [-0.1, 0.1]
+    # ticks: [0.01, 0.05]
+    cmap: "cmc.vik"
+    cmap_intervals: [-1.0, 1.0, 20]
+    cmap_locator_multiple: 0.2
+    cmap_type: "diverging"
+    cbar_kwargs:
+      extend: "both"
+  RMSE:
+    full_name: "Root Mean Squared Error"
+    label: "RMSE [mm h$^{-1}$]"
+    # limits: [1.0, 3.3]
+    # ticks: [0.5, 0.1]
+    cmap: "cmc.vik"
+    cmap_intervals: [0, 1.0, 20]
+    cmap_locator_multiple: 0.2
+    cmap_type: "sequential"
+    cbar_kwargs:
+      extend: "max"
+  MSE:
+    full_name: "Mean Squared Error"
+    label: "MSE [mm h$^{-1}$]"
+    # limits: [1.0, 3.3]
+    # ticks: [0.5, 0.1]
+    cmap: "cmc.vik"
+    cmap_intervals: [0, 1.0, 20]
+    cmap_locator_multiple: 0.2
+    cmap_type: "sequential"
+    cbar_kwargs:
+      extend: "max"
