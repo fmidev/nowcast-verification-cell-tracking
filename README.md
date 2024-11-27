@@ -181,6 +181,7 @@ The figures can be plotted with the following notebooks:
 - `notebooks/cell_verification_article_splits_merges.ipynb` for Figure 12 (number of splits and merges)
 - `notebooks/cell_verification_article_supplementary_figures.ipynb` for supplementary figures
 - `notebooks/plot_domain_figure.ipynb` for plotting the domain figure. Update the path to the topography data in the 4th cell in the notebook.
+- `notebooks/plot_pixel_csi_rmse.ipynb` for plotting the pixel-wise CSI and RMSE figures. Note that this notebook uses the
 
 The nowcast figure can be plotted with the script `scripts/plot_nowcast_figures.py` that uses the configuration file `config/swiss-data/plot_nowcast_figs.yaml`. To update the configuration file, refer to the comments in the file. The script can be run with
 
